@@ -45,16 +45,22 @@ public class ClienteController {
     @Path("{id}")
     @Transactional
     public Response removeCliente(@PathParam("id") Long id){
-        Cliente cli = clienteService.removeCliente(id);
-        return Response.ok(cli).status(204).build();
+         clienteService.removeCliente(id);
+        return Response.noContent().status(204).build();
     }
 
     @PUT()
     @Path("{id}")
     @Transactional
-    public Response atualizaCliente(@PathParam("id") Long id, Cliente cliente){
-        Cliente cli = clienteService.atualizaCliente(id, cliente);
-        return Response.ok(cli).status(202).build();
+    public Response atualizaCliente(@PathParam("id") Long id,ClienteRequestDTO clienteRequestDTO){
+        ClienteResponseDTO clienteResponseDTO = clienteService.atualizaCliente(id, clienteRequestDTO);
+        return Response.ok(clienteResponseDTO).status(202).build();
+    }
+    @GET()
+    @Path("{id}")
+    public Response buscarClientePorId(@PathParam("id") Long id){
+        ClienteResponseDTO clienteResponseDTO = clienteService.buscarPorId(id);
+        return Response.ok(clienteResponseDTO).status(200).build();
     }
 
 

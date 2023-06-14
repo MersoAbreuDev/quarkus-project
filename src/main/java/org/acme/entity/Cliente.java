@@ -1,12 +1,10 @@
 package org.acme.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 public class Cliente extends PanacheEntity{
@@ -15,6 +13,9 @@ public class Cliente extends PanacheEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
+
+    @OneToMany(mappedBy = "cliente")
+    private List<Pedido> pedidos;
 
     public Long getId() {
         return id;
@@ -32,4 +33,11 @@ public class Cliente extends PanacheEntity{
         this.nome = nome;
     }
 
+    public List<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
+    }
 }

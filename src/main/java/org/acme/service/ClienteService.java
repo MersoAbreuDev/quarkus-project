@@ -30,21 +30,31 @@ public class ClienteService {
         return clienteResponseDTO;
     }
 
-    public Cliente removeCliente(Long id){
-        Cliente cliente = clienteRepository.findById(id);
-        if(cliente == null){
-            throw new RuntimeException("Cliente não encontrado!");
-        }
-        this.clienteRepository.delete(cliente);
-        return cliente;
+    public void removeCliente(Long id){
+      Cliente cliente = this.clienteRepository.findById(id);
+      this.clienteRepository.delete(cliente);
     }
 
-    public Cliente atualizaCliente(Long id, Cliente cliente) {
-        Cliente cli = clienteRepository.findById(id);
-        if(cliente != null){
-            cli.setNome(cliente.getNome());
-            cli.persist();
+    public ClienteResponseDTO atualizaCliente(Long id, ClienteRequestDTO clienteRequestDTO) {
+        Cliente cliente = clienteRepository.findById(id);
+
+        if(cliente != null) {
+            cliente.setNome(clienteRequestDTO.getNome());
+            cliente.persist();
         }
-        return cli;
+        ClienteResponseDTO clienteResponseDTO = new ClienteResponseDTO();
+        clienteResponseDTO.setId(cliente.getId());
+        clienteResponseDTO.setNome(cliente.getNome());
+        return clienteResponseDTO;
     }
+
+    public ClienteResponseDTO buscarPorId(Long id) {
+        Cliente cliente = clienteRepository.findById(id);
+        ClienteResponseDTO clienteResponseDTO = new ClienteResponseDTO();
+        clienteResponseDTO.setId(cliente.getId());
+        clienteResponseDTO.setNome(cliente.getNome());
+        return clienteResponseDTO;
+    }
+
+
 }
